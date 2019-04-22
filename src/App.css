@@ -42,7 +42,7 @@ body {
   text-align: center;
 }
 
-.game-hole {
+.game-hole-area {
   margin: 2px;
   overflow: hidden;
   width: 120px;
@@ -50,13 +50,13 @@ body {
 }
 
 .hole-location {
-  background: url(../src/pictures/brown-hole.png);
+  background-image: url(../src/pictures/brown-hole.png);
   background-size: 95%;
   background-repeat: no-repeat;
   height: 100%;
   width: 100%;
   position: relative;
-  top: 75%;
+  bottom: 25%;
 }
 
 .game-start-button {
@@ -80,4 +80,14 @@ body {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.game-mole {
+  background-image: url(../src/pictures/mole.png);
+  background-repeat: no-repeat;
+  background-size: 80px;
+  background-position: center;
+  height: 100%;
+  cursor: pointer;
+  transform: translate(0, 60%);
 }

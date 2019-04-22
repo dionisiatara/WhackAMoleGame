@@ -8,14 +8,23 @@ import Hole from './Hole';
 
 class App extends Component {
 
-  constructor(props) {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
         playerName: "",
         score: 0,
         currentScore: 0,
         hasLoggedIn: false,
-        gameHasStarted: false
+        startButtonIsClicked: false,
+        gameHasStarted: false,
+        lastMole: '',
+
+        // Moles
+        1:'translate(0, 60%)',
+        2:'translate(0, 60%)',
+        3:'translate(0, 60%)',
+        4:'translate(0, 60%)',
+        5:'translate(0, 60%)'
     };
     this.getPlayer = this.getPlayer.bind(this);
     //this.displayPlayerName = this.displayPlayerName.bind(this);
@@ -35,9 +44,10 @@ class App extends Component {
    */
   startButtonCallBack = () => {
     this.setState({
-      gameHasStarted: true
+      startButtonIsClicked: true
     }, function() {
-      console.log("gameHasStarted = " + this.state.gameHasStarted);
+      console.log("startButtonIsClicked = " + this.state.startButtonIsClicked);
+      this.startGame();
     });
   }
 
@@ -45,8 +55,6 @@ class App extends Component {
    * Get the player's name from Login Component and add it to Firestore if does not exist yet.
    */
   getPlayer() {
-    // console.log(this.state.playerName);
-
     // Setup Firestore
     const db = firebase.firestore();
 
@@ -83,7 +91,7 @@ class App extends Component {
   createHoles() {
     var holes = [];
     for (let i = 1; i <= 5; i++) {
-      var holeObject = <Hole context={this.state} holeIdx={i} key={i}/>
+      var holeObject = <Hole context={this.state} holeNumber={i} key={i}/>
       holes.push(holeObject);
     }
 
@@ -93,6 +101,40 @@ class App extends Component {
         {holes}
       </div>
     );
+  }
+
+  /**
+   * Start the game.
+   */
+  startGame() {
+    if (this.state.gameHasStarted) {
+      return;
+    }
+    this.setState({
+      gameHasStarted: true,
+      score: 0
+    }, function() {
+      console.log("gameHasStarted = " + this.state.gameHasStarted);
+      this.showMoles();
+    });
+  }
+
+  /**
+   * Show the mole in different holes.
+   */
+  showMoles() {
+    // for (let i = 1; i <= 5; i++) {
+    //   this.setState({
+    //     [i]: 'translate(0, 5%)'
+    //   }, function() {
+    //     console.log("Mole " + i);
+    //   });
+    // }
+    let currentMole = Math.floor(Math.random() * 5) + 1; // returns a random integer from 1 to 5
+    this.setState({
+      [currentMole]: 'translate(0, 5%)',
+      lastMole: [currentMole]
+    });
   }
 
   /**
@@ -122,6 +164,7 @@ class App extends Component {
           <h1 className="game-title">Whack a Mole!</h1>
           {text} {button}
           {this.createHoles()}
+          {/* {this.startGame()} */}
         </div>
       </div>
     );
