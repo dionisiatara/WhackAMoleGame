@@ -19,8 +19,9 @@ class App extends Component {
         startButtonIsClicked: false,
         gameHasStarted: false,
         gameHasEnded: false,
+        activeMole: 0,
         lastMole: 0,
-        timer: 30,
+        timer: 10,
 
         // Moles
         1:'translate(0, 60%)',
@@ -30,7 +31,7 @@ class App extends Component {
         5:'translate(0, 60%)'
     };
     this.getPlayer = this.getPlayer.bind(this);
-    //this.displayPlayerName = this.displayPlayerName.bind(this);
+    this.whackMole = this.whackMole.bind(this);
   }
 
   /**
@@ -105,7 +106,7 @@ class App extends Component {
   createHoles() {
     var holes = [];
     for (let i = 1; i <= 5; i++) {
-      var holeObject = <Hole context={this.state} holeNumber={i} key={i}/>
+      var holeObject = <Hole context={this.state} holeNumber={i} key={i} onClick={this.whackMole}/>
       holes.push(holeObject);
     }
 
@@ -139,12 +140,12 @@ class App extends Component {
           this.clearMoles();
           this.setState({
             gameHasStarted: false,
-            gameHasEnded: true
+            gameHasEnded: true,
+            activeMole: 0
           });
+          console.log("Final score = " + this.state.score);
         }
-    }, 800);
-
-    
+    }, 800); 
   }
 
   /**
@@ -160,7 +161,8 @@ class App extends Component {
     }
     this.setState({
       [currentMole]: 'translate(0, 5%)',
-      lastMole: currentMole
+      lastMole: currentMole,
+      activeMole: currentMole
     });
   }
 
@@ -171,6 +173,18 @@ class App extends Component {
     for (let i = 1; i <= 5; i++) {
       this.setState({
         [i]: 'translate(0, 60%)'
+      });
+    }
+  }
+
+  /**
+   * Mole is whacked, add 1 point to the score.
+   */
+  whackMole(holeNumber) {
+    if (holeNumber === this.state.activeMole) {
+      console.log("MATCH");
+      this.setState({
+        score: this.state.score + 1
       });
     }
   }
@@ -189,7 +203,7 @@ class App extends Component {
     // Check if the player has logged in
     if (hasLoggedIn) {
       if (gameHasStarted) {
-        timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount='30'/>
+        timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount={this.state.timer}/>
         // scoreTab;
       } else {
         button = <StartButton context={this} callBackFromStartButton={this.startButtonCallBack}/>

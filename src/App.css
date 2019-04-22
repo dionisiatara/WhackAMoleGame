@@ -57,6 +57,7 @@ body {
   width: 100%;
   position: relative;
   bottom: 25%;
+  pointer-events: none;
 }
 
 .game-start-button {
