@@ -5,6 +5,7 @@ import Login from './Login.js';
 import firebase from "./Firestore";
 import StartButton from './StartButton';
 import Hole from './Hole';
+import Timer from './Timer';
 
 class App extends Component {
 
@@ -17,7 +18,9 @@ class App extends Component {
         hasLoggedIn: false,
         startButtonIsClicked: false,
         gameHasStarted: false,
-        lastMole: '',
+        gameHasEnded: false,
+        lastMole: 0,
+        timer: 30,
 
         // Moles
         1:'translate(0, 60%)',
@@ -48,6 +51,17 @@ class App extends Component {
     }, function() {
       console.log("startButtonIsClicked = " + this.state.startButtonIsClicked);
       this.startGame();
+    });
+  }
+
+  /**
+   * Call back to Timer.js to get the current timer.
+   */
+  timerCallBack = (dataFromChild) => {
+    this.setState({
+      timer: dataFromChild
+    }, function() {
+      console.log("timer = " + this.state.timer);
     });
   }
 
@@ -115,26 +129,50 @@ class App extends Component {
       score: 0
     }, function() {
       console.log("gameHasStarted = " + this.state.gameHasStarted);
-      this.showMoles();
+      // this.showMoles();
     });
+
+    const interval = setInterval( () => {
+        this.showMoles();
+        if (this.state.timer === 0) {
+          window.clearInterval(interval);
+          this.clearMoles();
+          this.setState({
+            gameHasStarted: false,
+            gameHasEnded: true
+          });
+        }
+    }, 800);
+
+    
   }
 
   /**
    * Show the mole in different holes.
    */
   showMoles() {
-    // for (let i = 1; i <= 5; i++) {
-    //   this.setState({
-    //     [i]: 'translate(0, 5%)'
-    //   }, function() {
-    //     console.log("Mole " + i);
-    //   });
-    // }
+    // Clear the previous mole, if any, before displaying the next one
+    this.clearMoles();
     let currentMole = Math.floor(Math.random() * 5) + 1; // returns a random integer from 1 to 5
+    if (this.state.lastMole === currentMole) {
+      this.showMoles();
+      return;
+    }
     this.setState({
       [currentMole]: 'translate(0, 5%)',
-      lastMole: [currentMole]
+      lastMole: currentMole
     });
+  }
+
+  /**
+   * Clear the previous moles.
+   */
+  clearMoles() {
+    for (let i = 1; i <= 5; i++) {
+      this.setState({
+        [i]: 'translate(0, 60%)'
+      });
+    }
   }
 
   /**
@@ -144,15 +182,18 @@ class App extends Component {
     const hasLoggedIn = this.state.hasLoggedIn;
     const gameHasStarted = this.state.gameHasStarted;
     let button;
-    let text;
+    let welcomeText;
+    let timer;
+    let scoreTab;
 
     // Check if the player has logged in
     if (hasLoggedIn) {
       if (gameHasStarted) {
-        // text = <h2>Show something</h2>
+        timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount='30'/>
+        scoreTab;
       } else {
         button = <StartButton context={this} callBackFromStartButton={this.startButtonCallBack}/>
-        text = <h2 className="welcome-message">Welcome, {this.state.playerName}!</h2>
+        welcomeText = <h2 className="welcome-message">Welcome, {this.state.playerName}!</h2>
       }
     } else {
       button = <Login onSubmit={this.getPlayer} context={this} callBackFromLogin={this.loginCallBack}/>
@@ -162,7 +203,7 @@ class App extends Component {
       <div className="main-area">
         <div className="game">
           <h1 className="game-title">Whack a Mole!</h1>
-          {text} {button}
+          {welcomeText} {button} {timer}
           {this.createHoles()}
           {/* {this.startGame()} */}
         </div>
