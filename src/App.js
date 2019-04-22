@@ -190,7 +190,7 @@ class App extends Component {
     if (hasLoggedIn) {
       if (gameHasStarted) {
         timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount='30'/>
-        scoreTab;
+        // scoreTab;
       } else {
         button = <StartButton context={this} callBackFromStartButton={this.startButtonCallBack}/>
         welcomeText = <h2 className="welcome-message">Welcome, {this.state.playerName}!</h2>
