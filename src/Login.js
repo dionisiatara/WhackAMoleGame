@@ -6,8 +6,7 @@ class Login extends React.Component {
     // constructor() {
     //     super();
         state = {
-            playerName: "",
-            score: 0
+            playerName: ""
         };
         updateInput = this.updateInput.bind(this);
         addPlayer = this.addPlayer.bind(this);
