@@ -22,17 +22,21 @@ class Timer extends React.Component {
         this.setState({
             seconds: startCount
         });
-        this.myInterval = setInterval( () => {
-            this.setState({
-                seconds: this.state.seconds - 1
-            }, function() {
-                this.props.callBackFromTimer(this.state.seconds);
-            });
+        this.myTimeOut = setTimeout( () => {
+            this.myInterval = setInterval( () => {
+                this.setState({
+                    seconds: this.state.seconds - 1
+                }, function() {
+                    this.props.callBackFromTimer(this.state.seconds);
+                });
+            }, 1000);
         }, 1000);
+        
     }
 
     componentWillUnmount() {
         clearInterval(this.myInterval);
+        clearTimeout(this.myTimeOut);
     }
 }
 

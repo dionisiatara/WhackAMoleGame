@@ -7,13 +7,14 @@ import Hole from './Hole';
 import Timer from './Timer';
 import Score from './Score';
 import GameOver from './GameOver';
+import PlayAgain from './PlayAgain';
 
 class App extends Component {
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-        playerName: "",
+        playerName: "Dioni",
         score: 0, // high score
         currentScore: 0,
         hasLoggedIn: false,
@@ -51,7 +52,6 @@ class App extends Component {
     this.setState({
       startButtonIsClicked: true
     }, function() {
-      console.log("startButtonIsClicked = " + this.state.startButtonIsClicked);
       this.startGame();
     });
   }
@@ -66,6 +66,23 @@ class App extends Component {
   }
 
   /**
+   * Call back to PlayAgain.js
+   */
+  playAgainCallBack = () => {
+    this.setState({
+      hasLoggedIn: true,
+      gameHasStarted: false,
+      gameHasEnded: false,
+      startButtonIsClicked: true,
+      currentScore: 0,
+      timer: 5
+    }, function() {
+      this.startGame();
+    });
+  }
+
+
+  /**
    * Get the player's name from Login Component and add it to Firestore if does not exist yet.
    */
   getPlayer() {
@@ -74,7 +91,6 @@ class App extends Component {
 
     // Get the player's name
     const inputName = this.state.playerName;
-    // console.log(inputName);
     
     // Check if player already exists
     db.collection("Players").doc(inputName).get()
@@ -92,20 +108,6 @@ class App extends Component {
                 console.error("Error writing document: ", error);
             });
         } else {
-            // Get the existing player's high score
-            // db.collection("Players").doc(inputName).get().then(doc => {
-            //   if (doc.exists) {
-            //     var highestScore = doc.data().highScore;
-            //     this.setState({
-            //       score: doc.data().highScore
-            //     });
-            //     console.log("Getting highest score.");
-            //   } else {
-            //     // No such document
-            //   }
-            // }).catch(error => {
-            //   // Error getting document
-            // })
             console.log("Player already exists.");
         }
     }).catch(error => {
@@ -150,7 +152,6 @@ class App extends Component {
       score: 0
     }, function() {
       console.log("gameHasStarted = " + this.state.gameHasStarted);
-      // this.showMoles();
     });
 
     const interval = setInterval( () => {
@@ -163,7 +164,6 @@ class App extends Component {
             gameHasEnded: true,
             activeMole: 0
           });
-          console.log("Final score = " + this.state.currentScore);
         }
     }, 1000); 
   }
@@ -217,7 +217,7 @@ class App extends Component {
     const gameHasStarted = this.state.gameHasStarted;
     const gameHasEnded = this.state.gameHasEnded;
     const highScore = this.state.score;
-    let button, welcomeText, timer, startGame, scoreTab, gameOver;
+    let button, welcomeText, timer, startGame, scoreTab, gameOver, playAgain;
 
     // Check if the player has logged in
     if (hasLoggedIn && !gameHasEnded) {
@@ -231,7 +231,8 @@ class App extends Component {
       }
     } else if (gameHasEnded) {
       gameOver = <GameOver context={this} finalScore={this.state.currentScore} playerName={this.state.playerName}
-        highScore={highScore}/>
+                    highScore={highScore}/>
+      playAgain = <PlayAgain context={this} callBackFromPlayAgainButton={this.playAgainCallBack}/>
     } else {
       button = <Login onSubmit={this.getPlayer} context={this} callBackFromLogin={this.loginCallBack}/>
     }
@@ -243,6 +244,7 @@ class App extends Component {
           {welcomeText} {button} {timer}
           {startGame} {scoreTab}
           {gameOver}
+          {playAgain}
         </div>
       </div>
     );
