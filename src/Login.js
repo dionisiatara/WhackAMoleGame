@@ -88,7 +88,7 @@ class Login extends React.Component {
                         onChange={this.onInput}
                         value={this.state.playerName}
                     />
-                    <button type="submit">Login</button>
+                    <button className="login-button" type="submit">Login</button>
                 </form>
             </div>
         );

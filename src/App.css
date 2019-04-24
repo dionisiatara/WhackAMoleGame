@@ -8,7 +8,7 @@ body {
   text-align: center;
   display: -webkit-flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -40,6 +40,18 @@ body {
 
 .game-login {
   text-align: center;
+}
+
+.login-button {
+  font-size: 1rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+  margin: 5px;
 }
 
 .game-hole-area {
@@ -95,6 +107,7 @@ body {
 
 .game-over {
   align-items: center;
+  text-align: center;
 }
 
 .score-board {
@@ -107,6 +120,31 @@ body {
 }
 
 .play-again-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+}
+
+.level-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+  margin: 10px;
+}
+
+.exit-button {
   font-size: 1rem;
   padding: 0.6rem 0.6rem 0.7rem 0.6rem;
   color: white;

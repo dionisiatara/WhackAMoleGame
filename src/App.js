@@ -8,19 +8,22 @@ import Timer from './Timer';
 import Score from './Score';
 import GameOver from './GameOver';
 import PlayAgain from './PlayAgain';
+import Level from './Level';
 
 class App extends Component {
 
   constructor(props, context) {
     super(props, context);
     this.state = {
-        playerName: "Dioni",
+        playerName: "",
         score: 0, // high score
         currentScore: 0,
         hasLoggedIn: false,
         startButtonIsClicked: false,
         gameHasStarted: false,
         gameHasEnded: false,
+        levelIsPicked: false,
+        levelPicked: 0,
         activeMole: 0,
         lastMole: 0,
         timer: 5,
@@ -53,6 +56,16 @@ class App extends Component {
       startButtonIsClicked: true
     }, function() {
       this.startGame();
+    });
+  }
+
+  /**
+   * Call back to Level.js to get the level picked.
+   */
+  levelCallBack = (dataFromChild) => {
+    this.setState({
+      levelIsPicked: true,
+      levelPicked: dataFromChild
     });
   }
 
@@ -165,7 +178,7 @@ class App extends Component {
             activeMole: 0
           });
         }
-    }, 1000); 
+    }, this.state.levelPicked); 
   }
 
   /**
@@ -216,12 +229,15 @@ class App extends Component {
     const hasLoggedIn = this.state.hasLoggedIn;
     const gameHasStarted = this.state.gameHasStarted;
     const gameHasEnded = this.state.gameHasEnded;
+    const levelIsPicked = this.state.levelIsPicked;
     const highScore = this.state.score;
-    let button, welcomeText, timer, startGame, scoreTab, gameOver, playAgain;
+    let button, welcomeText, timer, startGame, scoreTab, gameOver, playAgain, pickLevel;
 
     // Check if the player has logged in
     if (hasLoggedIn && !gameHasEnded) {
-      if (gameHasStarted) {
+      if (!levelIsPicked) {
+        pickLevel = <Level context={this} callBackFromLevelButton={this.levelCallBack}/>
+      } else if (gameHasStarted) {
         timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount={this.state.timer}/>
         startGame = this.createHoles();
         scoreTab = <Score context={this} score={this.state.currentScore}/>;
@@ -241,7 +257,7 @@ class App extends Component {
       <div className="main-area">
         <div className="game">
           <h1 className="game-title">Whack a Mole!</h1>
-          {welcomeText} {button} {timer}
+          {welcomeText} {pickLevel} {button} {timer}
           {startGame} {scoreTab}
           {gameOver}
           {playAgain}

@@ -56,7 +56,7 @@ class GameOver extends React.Component {
                 <h2>Game Over!</h2>
                 <h3>Your final score: {this.props.finalScore}</h3>
                 <h3>Your highest score: {this.state.highScore}</h3>
-                <h2>Leaderboard</h2>
+                <h2>Leaderboard (Top 5)</h2>
                 <div className="score-board">
                     <ul>
                         {this.state.list.map(d => <li> <h4>{d}</h4></li>)}
