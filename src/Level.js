@@ -7,7 +7,7 @@ class Level extends React.Component {
     }
 
     getLevelHard = (e) => {
-        this.props.callBackFromLevelButton(500);
+        this.props.callBackFromLevelButton(600);
     }
 
     render() {
