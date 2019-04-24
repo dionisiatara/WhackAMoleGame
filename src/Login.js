@@ -3,15 +3,14 @@ import firebase from "./Firestore";
 
 class Login extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            playerName: "",
-            score: 0
+    // constructor() {
+    //     super();
+        state = {
+            playerName: ""
         };
-        this.updateInput = this.updateInput.bind(this);
-        this.addPlayer = this.addPlayer.bind(this);
-    }
+        updateInput = this.updateInput.bind(this);
+        addPlayer = this.addPlayer.bind(this);
+    // }
 
     /**
      * Save the user's input with every change that is made.
@@ -44,7 +43,7 @@ class Login extends React.Component {
             .then(doc => {
                 if (!doc.exists) {
                     // Add the new player to the Firestore
-                    const playerRef = db.collection("Players").doc(inputName).set({
+                    db.collection("Players").doc(inputName).set({
                         playerName: inputName,
                         score: 0
                     });
@@ -61,18 +60,35 @@ class Login extends React.Component {
         });
     }
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        // console.log(e.target.value);
+        // this.props.callBackFromLogin(e.target.value);
+        // this.props.onSubmit(this.state.playerName);
+        this.props.onSubmit();
+    }
+
+    onInput = (e) => {
+        this.setState({
+            playerName: e.target.value
+        });
+        this.props.callBackFromLogin(e.target.value);
+    }
+
     render() {
         return (
             <div className="game-login">
-                <form onSubmit={this.addPlayer}>
+                {/* <form onSubmit={this.addPlayer}> */}
+                <form onSubmit={this.onSubmit}>
                     <input
                         type="text"
                         name="playerName"
                         placeholder="Player's name"
-                        onChange={this.updateInput}
+                        // onChange={this.updateInput}
+                        onChange={this.onInput}
                         value={this.state.playerName}
                     />
-                    <button type="submit">Login</button>
+                    <button className="login-button" type="submit">Login</button>
                 </form>
             </div>
         );

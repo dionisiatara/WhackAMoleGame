@@ -1,33 +1,157 @@
-.App {
+body {
+  background-color: #567D46;
+}
+
+.game {
+  padding: 20px 0;
+  width: 450px;
+  text-align: center;
+  display: -webkit-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.main-area {
+  letter-spacing: 0.2rem;
+  color: white;
+  display: -webkit-flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 80vh;
+}
+
+.game-title {
+  font-size: 2rem;
+  width: 100%;
+  color: white;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.welcome-message {
+  font-size: 1.5rem;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
+
+.game-login {
+  text-align: center;
+}
+
+.login-button {
+  font-size: 1rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+  margin: 5px;
+}
+
+.game-hole-area {
+  margin: 2px;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+}
+
+.hole-location {
+  background-image: url(../src/pictures/brown-hole.png);
+  background-size: 95%;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  bottom: 25%;
   pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.game-start-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
   color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
 }
 
-.App-link {
-  color: #61dafb;
+.game-board {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: -webkit-flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.game-mole {
+  background-image: url(../src/pictures/mole.png);
+  background-repeat: no-repeat;
+  background-size: 80px;
+  background-position: center;
+  height: 100%;
+  cursor: pointer;
+  transform: translate(0, 60%);
+}
+
+.game-over {
+  align-items: center;
+  text-align: center;
+}
+
+.score-board {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.play-again-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+}
+
+.level-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
+  margin: 10px;
+}
+
+.exit-button {
+  font-size: 1rem;
+  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
+  color: white;
+  border: 2px solid #FCB942;
+  background: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Amaranth', sans-serif;
+  letter-spacing: 0.13rem;
 }
