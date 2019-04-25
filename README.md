@@ -1,6 +1,6 @@
 # Whack A Mole Game
 
-<img src="https://github.com/dionisiatara/WhackAMoleGame/blob/develop/src/pictures/mole.png" width="100">
+<img src="https://github.com/dionisiatara/WhackAMoleGame/blob/develop/src/pictures/mole.png" width="100"> <br>
 Click [here](https://dionisiatara.github.io/WhackAMoleGame) to play the game. <br><br>
 
 Built in React. <br>
