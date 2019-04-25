@@ -2,6 +2,9 @@ import React from 'react';
 
 class Hole extends React.Component {
 
+    /**
+     * Call back to main App.js
+     */
     moleIsWhacked = () => {
         this.props.onClick(this.props.holeNumber);
         // console.log(this.props.holeNumber);

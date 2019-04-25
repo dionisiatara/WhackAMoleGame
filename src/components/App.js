@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
-import Login from './Login.js';
-import Firebase from "./Firestore";
-import StartButton from './StartButton';
-import Hole from './Hole';
-import Timer from './Timer';
-import Score from './Score';
+import '../App.css';
+
 import GameOver from './GameOver';
-import PlayAgain from './PlayAgain';
+import Hole from './Hole';
 import Level from './Level';
+import Login from './Login.js';
+import PlayAgain from './PlayAgain';
+import Score from './Score';
+import StartButton from './StartButton';
+import Timer from './Timer';
+
+import constants from '../lib/constants';
+import Firebase from '../lib/Firestore';
 
 class App extends Component {
 
@@ -26,7 +29,8 @@ class App extends Component {
         levelPicked: 0,
         activeMole: 0,
         lastMole: 0,
-        timer: 5,
+        timer: constants.GAME_TIMER,
+        holesTotal: constants.NUMBER_OF_HOLES,
 
         // Moles
         1:'translate(0, 60%)',
@@ -88,7 +92,7 @@ class App extends Component {
       gameHasEnded: false,
       startButtonIsClicked: true,
       currentScore: 0,
-      timer: 5
+      timer: constants.GAME_TIMER
     }, function() {
       this.startGame();
     });
@@ -115,13 +119,13 @@ class App extends Component {
               highScore: 0
             })
             .then(function() {
-              console.log("A new player has been added.");
+              // console.log("A new player has been added.");
             })
             .catch(function(error) {
                 console.error("Error writing document: ", error);
             });
         } else {
-            console.log("Player already exists.");
+            // console.log("Player already exists.");
         }
     }).catch(error => {
       // Error getting document
@@ -130,8 +134,6 @@ class App extends Component {
     // Update the login state
     this.setState({
       hasLoggedIn: true
-    }, function() {
-      console.log("hasLoggedIn = " + this.state.hasLoggedIn);
     });
   }
 
@@ -140,7 +142,7 @@ class App extends Component {
    */
   createHoles() {
     var holes = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= this.state.holesTotal; i++) {
       var holeObject = <Hole context={this.state} holeNumber={i} key={i} onClick={this.whackMole}/>
       holes.push(holeObject);
     }
@@ -163,8 +165,6 @@ class App extends Component {
     this.setState({
       gameHasStarted: true,
       score: 0
-    }, function() {
-      console.log("gameHasStarted = " + this.state.gameHasStarted);
     });
 
     const interval = setInterval( () => {
@@ -178,7 +178,7 @@ class App extends Component {
             activeMole: 0
           });
         }
-    }, this.state.levelPicked); 
+    }, this.state.levelPicked); // interval speed
   }
 
   /**
@@ -187,7 +187,7 @@ class App extends Component {
   showMoles() {
     // Clear the previous mole, if any, before displaying the next one
     this.clearMoles();
-    let currentMole = Math.floor(Math.random() * 5) + 1; // returns a random integer from 1 to 5
+    let currentMole = Math.floor(Math.random() * this.state.holesTotal) + 1; // returns a random integer from 1 to total # of holes
     if (this.state.lastMole === currentMole) {
       this.showMoles();
       return;
@@ -203,7 +203,7 @@ class App extends Component {
    * Clear the previous moles.
    */
   clearMoles() {
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= this.state.holesTotal; i++) {
       this.setState({
         [i]: 'translate(0, 60%)'
       });
@@ -215,7 +215,6 @@ class App extends Component {
    */
   whackMole(holeNumber) {
     if (holeNumber === this.state.activeMole) {
-      console.log("MATCH");
       this.setState({
         currentScore: this.state.currentScore + 1
       });
@@ -237,6 +236,7 @@ class App extends Component {
     if (hasLoggedIn && !gameHasEnded) {
       if (!levelIsPicked) {
         pickLevel = <Level context={this} callBackFromLevelButton={this.levelCallBack}/>
+      // Main game screen
       } else if (gameHasStarted) {
         timer = <Timer context={this} callBackFromTimer={this.timerCallBack} startCount={this.state.timer}/>
         startGame = this.createHoles();
@@ -245,10 +245,12 @@ class App extends Component {
         button = <StartButton context={this} callBackFromStartButton={this.startButtonCallBack}/>
         welcomeText = <h2 className="welcome-message">Welcome, {this.state.playerName}!</h2>
       }
+    // Game is over
     } else if (gameHasEnded) {
       gameOver = <GameOver context={this} finalScore={this.state.currentScore} playerName={this.state.playerName}
                     highScore={highScore}/>
       playAgain = <PlayAgain context={this} callBackFromPlayAgainButton={this.playAgainCallBack}/>
+    // Main login screen
     } else {
       button = <Login onSubmit={this.getPlayer} context={this} callBackFromLogin={this.loginCallBack}/>
     }

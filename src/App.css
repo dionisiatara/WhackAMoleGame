@@ -52,6 +52,7 @@ body {
   font-family: 'Amaranth', sans-serif;
   letter-spacing: 0.13rem;
   margin: 5px;
+  outline: 0;
 }
 
 .game-hole-area {
@@ -144,14 +145,7 @@ body {
   margin: 10px;
 }
 
-.exit-button {
-  font-size: 1rem;
-  padding: 0.6rem 0.6rem 0.7rem 0.6rem;
-  color: white;
-  border: 2px solid #FCB942;
-  background: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: 'Amaranth', sans-serif;
-  letter-spacing: 0.13rem;
+.error-message {
+  color: purple;
+  /* text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; */
 }
