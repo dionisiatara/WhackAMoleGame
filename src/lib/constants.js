@@ -1,0 +1,8 @@
+export default {
+    GAME_LEVEL_EASY: 1000,
+    GAME_LEVEL_HARD: 600,
+    GAME_TIMER: 30,
+    NUMBER_OF_HOLES: 5,
+    TIMER_INTERVAL: 1000,
+    TIMER_TIMEOUT: 1000
+}

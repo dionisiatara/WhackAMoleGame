@@ -1,5 +1,5 @@
 import React from 'react';
-import Firebase from './Firestore';
+import Firebase from '../lib/Firestore';
 
 class GameOver extends React.Component {
     constructor(props) {
@@ -10,6 +10,9 @@ class GameOver extends React.Component {
         }
     }
 
+    /**
+     * Get the current player's highscore from the database.
+     */
     getHighestScore = () => {
         const db = Firebase.firestore();
         db.collection("Players").doc(this.props.playerName).get().then(doc => {
@@ -23,6 +26,9 @@ class GameOver extends React.Component {
           });
     }
 
+    /**
+     * Update the current player's highscore in the database if final score > old high score.
+     */
     updateHighestScore = () => {
         const finalScore = this.props.finalScore;
         const db = Firebase.firestore();
@@ -39,6 +45,9 @@ class GameOver extends React.Component {
         });
     }
 
+    /**
+     * Populate the score list from the database.
+     */
     getLeaderBoard = () => {
         const db = Firebase.firestore();
         var scoreBoard = this.state.list;
@@ -59,14 +68,17 @@ class GameOver extends React.Component {
                 <h2>Leaderboard (Top 5)</h2>
                 <div className="score-board">
                     <ul>
-                        {this.state.list.map(d => <li> <h4>{d}</h4></li>)}
+                        {this.state.list.map((d, idx) => <li key={idx}> <h4>{d}</h4> </li>)}
                     </ul>
                 </div>
             </div>
         )
     }
 
-    componentWillMount() {
+    /**
+     * Executed after the first render.
+     */
+    componentDidMount() {
         this.updateHighestScore();
         this.getHighestScore();
         this.getLeaderBoard();

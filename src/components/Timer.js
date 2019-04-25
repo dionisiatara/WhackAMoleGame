@@ -1,5 +1,7 @@
 import React from 'react';
 
+import constants from '../lib/constants';
+
 class Timer extends React.Component {
     constructor(props) {
         super(props)
@@ -17,6 +19,10 @@ class Timer extends React.Component {
         );
     }
 
+    /**
+     * Executed after the first render.
+     * Used with delayed execution such as setTimeout or setInterval.
+     */
     componentDidMount() {
         const {startCount} = this.props;
         this.setState({
@@ -29,11 +35,15 @@ class Timer extends React.Component {
                 }, function() {
                     this.props.callBackFromTimer(this.state.seconds);
                 });
-            }, 1000);
-        }, 1000);
+            }, constants.TIMER_INTERVAL);
+        }, constants.TIMER_TIMEOUT);
         
     }
 
+    /**
+     * Invoked immediately before a component is unmounted and destroyed.
+     * Perform cleanup in this method, such as invalidating timers.
+     */
     componentWillUnmount() {
         clearInterval(this.myInterval);
         clearTimeout(this.myTimeOut);

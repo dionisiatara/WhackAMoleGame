@@ -1,13 +1,21 @@
 import React from 'react';
 
+import constants from '../lib/constants';
+
 class Level extends React.Component {
 
+    /**
+     * Call back to main App.js
+     */
     getLevelEasy = (e) => {
-        this.props.callBackFromLevelButton(1000);
+        this.props.callBackFromLevelButton(constants.GAME_LEVEL_EASY);
     }
 
+    /**
+     * Call back to main App.js
+     */
     getLevelHard = (e) => {
-        this.props.callBackFromLevelButton(600);
+        this.props.callBackFromLevelButton(constants.GAME_LEVEL_HARD);
     }
 
     render() {
